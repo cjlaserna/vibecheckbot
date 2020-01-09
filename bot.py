@@ -18,13 +18,13 @@ token = os.getenv('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix='$', description='')
 
 #   Reddit Setup
-reddit = praw.Reddit(client_id='userid',
-                     client_secret='usersecret',
+reddit = praw.Reddit(client_id='takenoutforprivacy',
+                     client_secret='takenoutforprivacy',
                      user_agent='VibeCheck Discord Bot 0.1')
 
 #data management
-profchantxt= open("profmodchannels.txt","w+")
-nonicktxt= open("nonickguilds.txt","w+")
+profchantxt= open("profmodchannels.txt","r+")
+nonicktxt= open("nonickguilds.txt","r+")
 
 #global variables
 profanitylist = open('list.txt').read().splitlines()
@@ -43,7 +43,7 @@ async def on_message(message):
         await message.channel.send('> bruh')
     if (str(message.content)).lower() == "f": #  ensures the bot presses f back
         await message.channel.send('> F :frowning: ')
-    if message.channel.id in profanitycheck:
+    if str(message.channel.id) in profanitycheck:
         newmessage = message.content.lower()
         profanity_detected = 0
         msgwordlist = newmessage.split()
@@ -57,14 +57,16 @@ async def on_message(message):
                         profanity_detected = 1
                         break
                 else: pass
-        for word in msgwordlist:
-            for profanity in profanitylist:
-                if profanity == word:
-                    profstart = newmessage.find('profanity')
-                    censorship = censor(profanity)
-                    newmessage = newmessage.replace(profanity, censorship)
-                else: pass
         if profanity_detected == 1:
+            for word in msgwordlist:
+                for profanity in profanitylist:
+                    if profanity == word:
+                        censorship = censor(word)
+                        index = msgwordlist.index(word)
+                        msgwordlist[index] = censorship
+                    else: pass
+        if profanity_detected == 1:
+            newmessage = ' '.join(msgwordlist)
             embed = discord.Embed(description=newmessage)
             embed.set_author(name=authorname, icon_url=pfp)
             embed.set_footer(text="This message was recreated due to profanity.")
@@ -75,8 +77,8 @@ async def on_message(message):
 async def cussmod(ctx):
     if ctx.message.author.guild_permissions.kick_members:
         global profanitycheck
-        if ctx.message.channel.id not in profanitycheck:
-            profanitycheck.append(ctx.message.channel.id)
+        if str(ctx.message.channel) not in profanitycheck:
+            profanitycheck.append(str(ctx.message.channel.id))
             fileadd(ctx.message.channel.id, 'profmodchannels.txt')
             await ctx.message.channel.send("> Vibe Bot is now monitoring profanity on this channel.")
         else:
@@ -87,8 +89,8 @@ async def cussmod(ctx):
 async def cussmodstop(ctx):
     if ctx.message.author.guild_permissions.kick_members:
         global profanitycheck
-        if ctx.message.channel.id in profanitycheck:
-            profanitycheck.remove(ctx.message.channel.id)
+        if str(ctx.message.channel).id in profanitycheck:
+            profanitycheck.remove(str(ctx.message.channel.id))
             fileremove(ctx.message.channel.id, 'profmodchannels.txt')
             await ctx.message.channel.send("> Vibe Bot is no longer monitoring profanity on this channel.")
         else:
@@ -275,22 +277,22 @@ async def resetnick(ctx):
 
 @bot.command()
 async def nickstart(ctx):
-    if (ctx.message.author.guild_permissions.kick_members) and (ctx.message.author.guild.id in nonicklist):
+    if (ctx.message.author.guild_permissions.kick_members) and (str(ctx.message.author.guild.id) in nonicklist):
         fileremove(ctx.message.author.guild.id, 'nonickguilds.txt')
-        nonicklist.remove(ctx.message.author.guild.id)
+        nonicklist.remove(str(ctx.message.author.guild.id))
         await ctx.message.channel.send("No nick has been turned off for this server, everytime someone gets vibe checked, we will change their nickname. Do $nickstop to undo this action")
-    elif  (ctx.message.author.guild_permissions.kick_members == False) or (ctx.message.author.guild.id not in nonicklist):
+    elif  (ctx.message.author.guild_permissions.kick_members == False) or (str(ctx.message.author.guild.id) not in nonicklist):
         await ctx.message.channel.send("Something went wrong, either you do not have the correct permissions or this server is already changing nicknames through vibe checks.")
     else:
         await ctx.message.channel.send("Something went wrong, either you do not have the correct permissions or it was our mistake.")
 
 @bot.command()
 async def nickstop(ctx):
-    if (ctx.message.author.guild_permissions.kick_members) and (ctx.message.author.guild.id not in nonicklist):
+    if (ctx.message.author.guild_permissions.kick_members) and (str(ctx.message.author.guild.id) not in nonicklist):
         fileadd(ctx.message.author.guild.id, 'nonickguilds.txt')
-        nonicklist.append(ctx.message.author.guild.id)
+        nonicklist.append(str(ctx.message.author.guild.id))
         await ctx.message.channel.send("No nick has been turned on for this server, everytime someone gets vibe checked, we will not change their nickname. Do $nickstart to undo this action.")
-    elif  (ctx.message.author.guild_permissions.kick_members == False) or (ctx.message.author.guild.id in nonicklist):
+    elif  (ctx.message.author.guild_permissions.kick_members == False) or (str(ctx.message.author.guild.id) in nonicklist):
         await ctx.message.channel.send("Something went wrong, either you do not have the correct permissions or this server or no nick is already turned on.")
     else:
         await ctx.message.channel.send("Something went wrong, either you do not have the correct permissions or it was our mistake.")
