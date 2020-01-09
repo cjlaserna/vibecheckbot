@@ -3,7 +3,7 @@ A discord bot checking for vibes that sprouted from online meme culture. This di
 
 
 ## 💻 Repository Purpose
-The purpose of this repository is to allow anyone who wants to contribute the bot to fork the repo. This repository also allows me to document changes and updates to the bot. In the future, I might use this repo to host a site for the bot.
+The purpose of this repository is to allow anyone who wants to contribute to  the bot to fork the repo. This repository also allows me to document changes and updates to the bot. In the future, I might use this repo to host a site for the bot.
 
 ## 📁 Files
 bot.py: The main file I use for the discord bot. It is constantly being worked on. I do not use an IDE or text editor connected to Github and I certainly do not use Github for altering the code. Since this is the case, there's only one branch and commits are literal copy and pastes of my entire code.
