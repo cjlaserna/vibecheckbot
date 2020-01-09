@@ -18,8 +18,8 @@ token = os.getenv('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix='$', description='')
 
 #   Reddit Setup
-reddit = praw.Reddit(client_id='insert_client_id',
-                     client_secret='insert_client_secret',
+reddit = praw.Reddit(client_id='userid',
+                     client_secret='usersecret',
                      user_agent='VibeCheck Discord Bot 0.1')
 
 #data management
@@ -73,39 +73,46 @@ async def on_message(message):
 
 @bot.command()
 async def cussmod(ctx):
-    global profanitycheck
-    if ctx.message.channel.id not in profanitycheck:
-        profanitycheck.append(ctx.message.channel.id)
-        fileadd(ctx.message.channel.id, 'profmodchannels.txt')
-        await ctx.message.channel.send("> Vibe Bot is now monitoring profanity on this channel.")
+    if ctx.message.author.guild_permissions.kick_members:
+        global profanitycheck
+        if ctx.message.channel.id not in profanitycheck:
+            profanitycheck.append(ctx.message.channel.id)
+            fileadd(ctx.message.channel.id, 'profmodchannels.txt')
+            await ctx.message.channel.send("> Vibe Bot is now monitoring profanity on this channel.")
+        else:
+            await ctx.message.channel.send("> Profanity check is already turned on for this channel.")
     else:
-        await ctx.message.channel.send("> Profanity check is already turned on for this channel.")
+        await ctx.message.channel.send("> You do not have permission to use this command.")
 @bot.command()
 async def cussmodstop(ctx):
-    global profanitycheck
-    if ctx.message.channel.id in profanitycheck:
-        profanitycheck.remove(ctx.message.channel.id)
-        fileremove(ctx.message.channel.id, 'profmodchannels.txt')
-        await ctx.message.channel.send("> Vibe Bot is no longer monitoring profanity on this channel.")
+    if ctx.message.author.guild_permissions.kick_members:
+        global profanitycheck
+        if ctx.message.channel.id in profanitycheck:
+            profanitycheck.remove(ctx.message.channel.id)
+            fileremove(ctx.message.channel.id, 'profmodchannels.txt')
+            await ctx.message.channel.send("> Vibe Bot is no longer monitoring profanity on this channel.")
+        else:
+            await ctx.message.channel.send("> Profanity check is already turned off for this channel.")
     else:
-        await ctx.message.channel.send("> Profanity check is already turned off for this channel.")
+        await ctx.message.channel.send("> You do not have permission to use this command.")
 
 #vibehelp
 @bot.command()
 async def vibehelp(ctx):
-    embed=discord.Embed(title="Vibe Check Bot", description="All Help Commands for All Things Vibe Bot.", color=0x0000a0)
-    embed.set_author(name="@ahola", icon_url="https://discordemoji.com/assets/emoji/2446_cursed_flushed.png")
+    embed=discord.Embed(title="Vibe Check Bot", description="All Help Commands for All Things Vibe Bot.", url="https://github.com/cjlaserna/vibecheckbot", color=0x0000a0)
+    embed.set_author(name="@ahola", icon_url='https://cdn.discordapp.com/avatars/180173950918066176/87e548f470c9e28b9b899ebbddcd1793.webp?size=1024')
     embed.set_thumbnail(url="https://ih0.redbubble.net/image.966319411.8151/flat,128x128,075,t-pad,128x128,f8f8f8.jpg")
     embed.add_field(name="Checks :white_check_mark: ", value="`$checkhelp`", inline=True)
     embed.add_field(name="Memes :partying_face: ", value="`$memehelp`", inline=True)
+    embed.add_field(name="Moderation :hammer_pick: ", value="`$modhelp`", inline=True)
     embed.add_field(name="Fun :8ball: ", value="`$funhelp`", inline=True)
     embed.set_footer(text="This bot is always under development. If you have any suggestions tells me :)")
     await ctx.send(embed=embed)
 
 @bot.command()
 async def checkhelp(ctx):
-    embed=discord.Embed(title="Check Help", description="All Check Commands for All Things Vibe Bot.", color=0x0000a0)
-    embed.set_author(name="@ahola", icon_url="https://discordemoji.com/assets/emoji/2446_cursed_flushed.png")
+    embed=discord.Embed(title="Check Help", description="All Check Commands for All Things Vibe Bot.", url="https://github.com/cjlaserna/vibecheckbot", color=0x0000a0)
+    embed.set_author(name="@ahola", icon_url='https://cdn.discordapp.com/avatars/180173950918066176/87e548f470c9e28b9b899ebbddcd1793.webp?size=1024')
     embed.set_thumbnail(url="https://lh3.googleusercontent.com/tZjpBIEVdie5cWN5WmMaeO5xXQQmXNdSKq33i-UgVb-xgz3Yt2HgZL23qjVvWVq8uibbM6Pm=w128-h128-e365")
     embed.add_field(name="Check Online Users", value="```$vibecheckonline```", inline=True)
     embed.add_field(name="Vibe Check Anyone", value="```$vibecheckrandom```", inline=True)
@@ -118,8 +125,8 @@ async def checkhelp(ctx):
 
 @bot.command()
 async def memehelp(ctx):
-    embed=discord.Embed(title="Meme Help", description="All Meme Commands for All Things Vibe Bot.", color=0x0000a0)
-    embed.set_author(name="@ahola", icon_url="https://discordemoji.com/assets/emoji/2446_cursed_flushed.png")
+    embed=discord.Embed(title="Meme Help", description="All Meme Commands for All Things Vibe Bot.", url="https://github.com/cjlaserna/vibecheckbot", color=0x0000a0)
+    embed.set_author(name="@ahola", icon_url='https://cdn.discordapp.com/avatars/180173950918066176/87e548f470c9e28b9b899ebbddcd1793.webp?size=1024')
     embed.set_thumbnail(url="https://lh3.googleusercontent.com/tZjpBIEVdie5cWN5WmMaeO5xXQQmXNdSKq33i-UgVb-xgz3Yt2HgZL23qjVvWVq8uibbM6Pm=w128-h128-e365")
     embed.add_field(name="Wholesome", value="```$wholesome```", inline=True)
     embed.add_field(name="Memes", value="```$memes```", inline=True)
@@ -128,11 +135,25 @@ async def memehelp(ctx):
 
 @bot.command()
 async def funhelp(ctx):
-    embed=discord.Embed(title="Fun Help", description="All Miscellaneous Commands for All Things Vibe Bot.", color=0x0000a0)
-    embed.set_author(name="@ahola", icon_url="https://discordemoji.com/assets/emoji/2446_cursed_flushed.png")
+    embed=discord.Embed(title="Fun Help", description="All Miscellaneous Commands for All Things Vibe Bot.", url="https://github.com/cjlaserna/vibecheckbot", color=0x0000a0)
+    embed.set_author(name="@ahola", icon_url='https://cdn.discordapp.com/avatars/180173950918066176/87e548f470c9e28b9b899ebbddcd1793.webp?size=1024')
     embed.set_thumbnail(url="https://lh3.googleusercontent.com/tZjpBIEVdie5cWN5WmMaeO5xXQQmXNdSKq33i-UgVb-xgz3Yt2HgZL23qjVvWVq8uibbM6Pm=w128-h128-e365")
     embed.add_field(name="Minecraft Translate", value="```$mcenchant (content)```", inline=True)
     embed.add_field(name="uwufy", value="```$uwufy (content)```", inline=True)
+    embed.set_footer(text="This bot is always under development. If you have any suggestions tells me :)")
+    await ctx.send(embed=embed)
+
+@bot.command()
+async def modhelp(ctx):
+    embed=discord.Embed(title="Moderation Help", description="All Moderation Commands for All Things Vibe Bot.", url="https://github.com/cjlaserna/vibecheckbot", color=0x0000a0)
+    embed.set_author(name="@ahola", icon_url='https://cdn.discordapp.com/avatars/180173950918066176/87e548f470c9e28b9b899ebbddcd1793.webp?size=1024')
+    embed.set_thumbnail(url="https://lh3.googleusercontent.com/tZjpBIEVdie5cWN5WmMaeO5xXQQmXNdSKq33i-UgVb-xgz3Yt2HgZL23qjVvWVq8uibbM6Pm=w128-h128-e365")
+    embed.add_field(name="Profanity Mod", value="``` $cussmod ```", inline=True)
+    embed.add_field(name="Stop Profanity Mod", value="``` $cussmodstop ```", inline=True)
+    embed.add_field(name="Nicknames Off", value="` $nickstop ` ", inline=False)
+    embed.add_field(name="Nicknames On", value="` $nickstart `", inline=True)
+    embed.add_field(name="VibeKick", value="` $vibekick @user `", inline=True)
+    embed.add_field(name="In Depth Explanation:", value=" [github repo link](https://github.com/cjlaserna/vibecheckbot/blob/master/README.md) ", inline=False)
     embed.set_footer(text="This bot is always under development. If you have any suggestions tells me :)")
     await ctx.send(embed=embed)
 
