@@ -38,13 +38,16 @@ profmodchannels.txt: A list of channels that used $cussmod to allow the bot to c
 ` $wholesome ` Pulls wholesome memes from Reddit.\
 ` $uwufy (content) ` Turns the text into an 'uwufied' version of the text.\
 Example:\
-  Input:\
-> $uwufy A discord bot checking for vibes sprouted from online meme culture. This discord bot is currently under development. Forking and making suggestions is more than welcome.\
-  Output:\
-> A discowd bot checking fow vibes spwouted fwom onwine meme cuwtuwe. Thiws discowd bot iws cuwwentwy undew devewopment. Fowking awnd making suggestions iws mowe than wewcome.\
+  Input:
+> $uwufy A discord bot checking for vibes sprouted from online meme culture. This discord bot is currently under development. Forking and making suggestions is more than welcome.
+
+  Output:
+> A discowd bot checking fow vibes spwouted fwom onwine meme cuwtuwe. Thiws discowd bot iws cuwwentwy undew devewopment. Fowking awnd making suggestions iws mowe than wewcome.
+
 ` $mcenchant (content) ` Turns the text into the Standard Galactic Alphabet, more famously known as the enchanting letters you'd see on Minecraft.\
 Example:\
-  Input:\
-> $mcenchant A discord bot checking for vibes sprouted from online meme culture. This discord bot is currently under development. Forking and making suggestions is more than welcome.\
-  Output:\
+  Input:
+> $mcenchant A discord bot checking for vibes sprouted from online meme culture. This discord bot is currently under development. Forking and making suggestions is more than welcome.
+
+  Output:
 > ᔑ ↸╎ᓭᓵ𝙹∷↸ ʖ𝙹ℸ ̣  ᓵ⍑ᒷᓵꖌ╎リ⊣ ⎓𝙹∷ ⍊╎ʖᒷᓭ ᓭ!¡∷𝙹⚍ℸ ̣ ᒷ↸ ⎓∷𝙹ᒲ 𝙹リꖎ╎リᒷ ᒲᒷᒲᒷ ᓵ⚍ꖎℸ ̣ ⚍∷ᒷ. ℸ ̣ ⍑╎ᓭ ↸╎ᓭᓵ𝙹∷↸ ʖ𝙹ℸ ̣  ╎ᓭ ᓵ⚍∷∷ᒷリℸ ̣ ꖎ|| ⚍リ↸ᒷ∷ ↸ᒷ⍊ᒷꖎ𝙹!¡ᒲᒷリℸ ̣. ⎓𝙹∷ꖌ╎リ⊣ ᔑリ↸ ᒲᔑꖌ╎リ⊣ ᓭ⚍⊣⊣ᒷᓭℸ ̣ ╎𝙹リᓭ ╎ᓭ ᒲ𝙹∷ᒷ ℸ ̣ ⍑ᔑリ ∴ᒷꖎᓵ𝙹ᒲᒷ.
