@@ -1,5 +1,5 @@
 # Vibe Check Discord Bot
-` $uwufy content ` Turns the text into an 'uwufied' version of the text.
+A discord bot checking for vibes that sprouted from online meme culture. This discord bot is currently under development. Forking and making suggestions is more than welcome.
 
 
 ## Repository Purpose
