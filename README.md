@@ -51,3 +51,8 @@ Example:\
 
   Output:
 > ᔑ ↸╎ᓭᓵ𝙹∷↸ ʖ𝙹ℸ ̣  ᓵ⍑ᒷᓵꖌ╎リ⊣ ⎓𝙹∷ ⍊╎ʖᒷᓭ ᓭ!¡∷𝙹⚍ℸ ̣ ᒷ↸ ⎓∷𝙹ᒲ 𝙹リꖎ╎リᒷ ᒲᒷᒲᒷ ᓵ⚍ꖎℸ ̣ ⚍∷ᒷ. ℸ ̣ ⍑╎ᓭ ↸╎ᓭᓵ𝙹∷↸ ʖ𝙹ℸ ̣  ╎ᓭ ᓵ⚍∷∷ᒷリℸ ̣ ꖎ|| ⚍リ↸ᒷ∷ ↸ᒷ⍊ᒷꖎ𝙹!¡ᒲᒷリℸ ̣. ⎓𝙹∷ꖌ╎リ⊣ ᔑリ↸ ᒲᔑꖌ╎リ⊣ ᓭ⚍⊣⊣ᒷᓭℸ ̣ ╎𝙹リᓭ ╎ᓭ ᒲ𝙹∷ᒷ ℸ ̣ ⍑ᔑリ ∴ᒷꖎᓵ𝙹ᒲᒷ.
+
+# 🙌🏼 Credits/Notable Libraries
+[Discord Py](https://discordpy.readthedocs.io/en/latest/) - Main Discord Bot Python Library \
+[Google's List of Bad Words](https://github.com/RobertJGabriel/Google-profanity-words/blob/master/list.txt) - Profanity moderation heavily revolved around this list. \
+[Praw](https://pypi.org/project/praw/) - Allowed me to use Python to easily acccess Redit API. `$meme` and `$wholesome` utilizes this command.
