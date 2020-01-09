@@ -18,8 +18,8 @@ token = os.getenv('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix='$', description='')
 
 #   Reddit Setup
-reddit = praw.Reddit(client_id='takenoutforprivacy',
-                     client_secret='takenoutforprivacy',
+reddit = praw.Reddit(client_id='hidden,
+                     client_secret='hidden',
                      user_agent='VibeCheck Discord Bot 0.1')
 
 #data management
@@ -89,7 +89,7 @@ async def cussmod(ctx):
 async def cussmodstop(ctx):
     if ctx.message.author.guild_permissions.kick_members:
         global profanitycheck
-        if str(ctx.message.channel).id in profanitycheck:
+        if str(ctx.message.channel.id) in profanitycheck:
             profanitycheck.remove(str(ctx.message.channel.id))
             fileremove(ctx.message.channel.id, 'profmodchannels.txt')
             await ctx.message.channel.send("> Vibe Bot is no longer monitoring profanity on this channel.")
@@ -271,9 +271,14 @@ async def wholesome(ctx):
 
 @bot.command()
 async def resetnick(ctx):
+    member= ctx.message.author
     authorname = ctx.message.author.name
-    await ctx.message.author.edit(nick=authorname)
-    await ctx.message.channel.send("We reset your nickname. If you're an admin and would like to turn nick changing off do $nickstop")
+    try:
+      await member.edit(nick=str(authorname))
+      await ctx.message.channel.send("We reset your nickname. If you're an admin and would like to turn nick changing off do $nickstop")
+    except:
+      await ctx.message.channel.send("There was a problem with roles/permissions. Check roles to make sure the bot is allowed to change nicknames. Bots cannot change the nicknames of those who have a higher position than the bot. ")
+
 
 @bot.command()
 async def nickstart(ctx):
