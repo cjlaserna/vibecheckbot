@@ -8,11 +8,11 @@ The purpose of this repository is to allow anyone who wants to contribute the bo
 ## 📁 Files
 bot.py: The main file I use for the discord bot. It is constantly being worked on. I do not use an IDE or text editor connected to Github and I certainly do not use Github for altering the code. Since this is the case, there's only one branch and commits are literal copy and pastes of my entire code.
 
-profanewordslist.txt: This list contains profane words for the bot command @cussmod. I filter through this list and censor profanity with Python string functions.
+profanewordslist.txt: This list contains profane words for the bot command `$cussmod`. I filter through this list and censor profanity with Python string functions.
 
 ### 📃 Files you'd see if you actually tested the bot
-nonickguilds.txt: A list of guilds that used $nickstop to stop the bot from changing nicknames\
-profmodchannels.txt: A list of channels that used $cussmod to allow the bot to censor profanity in that channel.
+nonickguilds.txt: A list of guilds that used `$nickstop` to stop the bot from changing nicknames\
+profmodchannels.txt: A list of channels that used `$cussmod` to allow the bot to censor profanity in that channel.
 
 ## 📑 Bot Commands
 
