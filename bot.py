@@ -18,16 +18,21 @@ token = os.getenv('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix='$', description='')
 
 #   Reddit Setup
-reddit = praw.Reddit(client_id='USEYOUROWN',
-                     client_secret='USEYOUROWN',
+reddit = praw.Reddit(client_id='insert_client_id',
+                     client_secret='insert_client_secret',
                      user_agent='VibeCheck Discord Bot 0.1')
+
+#data management
+profchantxt= open("profmodchannels.txt","w+")
+nonicktxt= open("nonickguilds.txt","w+")
+
 #global variables
 profanitylist = open('list.txt').read().splitlines()
-profanitycheck = []
+profanitycheck = open('profmodchannels.txt').read().splitlines()
+nonicklist = open('nonickguilds.txt').read().splitlines()
 
 @bot.event
 async def on_ready(): #on log in print msg
-    global profanitylist
     print('We have logged in. ')  # log msg
 
 @bot.event
@@ -69,13 +74,21 @@ async def on_message(message):
 @bot.command()
 async def cussmod(ctx):
     global profanitycheck
-    profanitycheck.append(ctx.message.channel.id)
-    await ctx.message.channel.send("> Vibe Bot is now monitoring profanity on this channel.")
+    if ctx.message.channel.id not in profanitycheck:
+        profanitycheck.append(ctx.message.channel.id)
+        fileadd(ctx.message.channel.id, 'profmodchannels.txt')
+        await ctx.message.channel.send("> Vibe Bot is now monitoring profanity on this channel.")
+    else:
+        await ctx.message.channel.send("> Profanity check is already turned on for this channel.")
 @bot.command()
 async def cussmodstop(ctx):
     global profanitycheck
-    profanitycheck.remove(ctx.message.channel.id)
-    await ctx.message.channel.send("> Vibe Bot is no longer monitoring profanity on this channel.")
+    if ctx.message.channel.id in profanitycheck:
+        profanitycheck.remove(ctx.message.channel.id)
+        fileremove(ctx.message.channel.id, 'profmodchannels.txt')
+        await ctx.message.channel.send("> Vibe Bot is no longer monitoring profanity on this channel.")
+    else:
+        await ctx.message.channel.send("> Profanity check is already turned off for this channel.")
 
 #vibehelp
 @bot.command()
@@ -83,11 +96,6 @@ async def vibehelp(ctx):
     embed=discord.Embed(title="Vibe Check Bot", description="All Help Commands for All Things Vibe Bot.", color=0x0000a0)
     embed.set_author(name="@ahola", icon_url="https://discordemoji.com/assets/emoji/2446_cursed_flushed.png")
     embed.set_thumbnail(url="https://ih0.redbubble.net/image.966319411.8151/flat,128x128,075,t-pad,128x128,f8f8f8.jpg")
-    # embed.add_field(name="Check Online Users", value="```$vibecheckonline```", inline=True)
-    # embed.add_field(name="Vibe Check Anyone", value="```$vibecheckrandom```", inline=True)
-    # embed.add_field(name="Vibe Check @user", value="```$vibecheck @user``` If you don't mention a user, it will vibe check you instead.", inline=False)
-    # embed.add_field(name="Kick(Needs Perms)", value="```$vibekick```", inline=False)
-    # embed.add_field(name="Check Percent", value="```$vibecheckpercent @user``` If you don't mention a user, it will vibe check you instead.", inline=False)
     embed.add_field(name="Checks :white_check_mark: ", value="`$checkhelp`", inline=True)
     embed.add_field(name="Memes :partying_face: ", value="`$memehelp`", inline=True)
     embed.add_field(name="Fun :8ball: ", value="`$funhelp`", inline=True)
@@ -238,6 +246,34 @@ async def wholesome(ctx):
 
     await ctx.message.channel.send(submission.url)
 
+@bot.command()
+async def resetnick(ctx):
+    authorname = ctx.message.author.name
+    await ctx.message.author.edit(nick=authorname)
+    await ctx.message.channel.send("We reset your nickname. If you're an admin and would like to turn nick changing off do $nickstop")
+
+@bot.command()
+async def nickstart(ctx):
+    if (ctx.message.author.guild_permissions.kick_members) and (ctx.message.author.guild.id in nonicklist):
+        fileremove(ctx.message.author.guild.id, 'nonickguilds.txt')
+        nonicklist.remove(ctx.message.author.guild.id)
+        await ctx.message.channel.send("No nick has been turned off for this server, everytime someone gets vibe checked, we will change their nickname. Do $nickstop to undo this action")
+    elif  (ctx.message.author.guild_permissions.kick_members == False) or (ctx.message.author.guild.id not in nonicklist):
+        await ctx.message.channel.send("Something went wrong, either you do not have the correct permissions or this server is already changing nicknames through vibe checks.")
+    else:
+        await ctx.message.channel.send("Something went wrong, either you do not have the correct permissions or it was our mistake.")
+
+@bot.command()
+async def nickstop(ctx):
+    if (ctx.message.author.guild_permissions.kick_members) and (ctx.message.author.guild.id not in nonicklist):
+        fileadd(ctx.message.author.guild.id, 'nonickguilds.txt')
+        nonicklist.append(ctx.message.author.guild.id)
+        await ctx.message.channel.send("No nick has been turned on for this server, everytime someone gets vibe checked, we will not change their nickname. Do $nickstart to undo this action.")
+    elif  (ctx.message.author.guild_permissions.kick_members == False) or (ctx.message.author.guild.id in nonicklist):
+        await ctx.message.channel.send("Something went wrong, either you do not have the correct permissions or this server or no nick is already turned on.")
+    else:
+        await ctx.message.channel.send("Something went wrong, either you do not have the correct permissions or it was our mistake.")
+
 #   Functions
 async def vibecheck(member, author, channel, random, need_oc):
     """
@@ -260,14 +296,15 @@ async def vibecheck(member, author, channel, random, need_oc):
             vibe = randrange(2) #   50% 0 = fail, 1 = pass
             if vibe == 0: # failed/online
                 await channel.send("> " + rand_str + "<@!" + str(member.id) + ">" + " failed the vibe check. :clown:")
-                if member == member.guild.owner:
-                    await channel.send("> Uh oh, it seems like we couldn't change this person's nickname because of roles/permissions. What is it like escaping death?")
-                else:
-                    try:
-                        await member.edit(nick="failed the vibe check :clown: ")
-                    except:
-                        await channel.send("> An exception occured.")
-                        await channel.send("> It seems like we couldn't change this person's nickname. Try checking bot roles/permissions. \n If a person has a higher role that the bot, like an owner, we cannot change their nickname.")
+                if member.guild.id not in nonicklist:
+                    if member == member.guild.owner:
+                        await channel.send("> Uh oh, it seems like we couldn't change this person's nickname because of roles/permissions. What is it like escaping death?")
+                    else:
+                        try:
+                            await member.edit(nick="failed the vibe check ")
+                        except:
+                            await channel.send("> An exception occured.")
+                            await channel.send("> It seems like we couldn't change this person's nickname. Try checking bot roles/permissions. \n If a person has a higher role that the bot, like an owner, we cannot change their nickname.")
             elif vibe == 1: #passed/online
                 await channel.send("> " + rand_str + "<@!" + str(member.id) + ">" + " passed the vibe check. :white_check_mark: ")
             else: # safety net
@@ -277,14 +314,15 @@ async def vibecheck(member, author, channel, random, need_oc):
         vibe = randrange(2) #   50% 0 = fail, 1 = pass
         if vibe == 0: # failed/online
             await channel.send("> " + rand_str + "<@!" + str(member.id) + ">" + " failed the vibe check. :gun: ")
-            if member == member.guild.owner:
-                await channel.send("> Uh oh, it seems like we couldn't change this person's nickname because of roles/permissions. What is it like escaping death?")
-            else:
-                try:
-                    await member.edit(nick="failed the vibe check :clown: ")
-                except:
-                    await channel.send("> An exception occured.")
-                    await channel.send("> It seems like we couldn't change this person's nickname. Try checking bot roles/permissions. \n If a person has a higher role that the bot, like an owner, we cannot change their nickname.")
+            if member.guild.id not in nonicklist:
+                if member == member.guild.owner:
+                    await channel.send("> Uh oh, it seems like we couldn't change this person's nickname because of roles/permissions. What is it like escaping death?")
+                else:
+                    try:
+                        await member.edit(nick="failed the vibe check")
+                    except:
+                        await channel.send("> An exception occured.")
+                        await channel.send("> It seems like we couldn't change this person's nickname. Try checking bot roles/permissions. \n If a person has a higher role that the bot, like an owner, we cannot change their nickname.")
         elif vibe == 1: #passed/online
             await channel.send("> " + rand_str + "<@!" + str(member.id) + ">" + " passed the vibe check. :white_check_mark: ")
         else: # safety net
@@ -320,20 +358,29 @@ def uwutranslate(phrase):
     translation_two = ''
     for letter in translation:
         if letter == 't':
-            if translation[iter_count+1] == 'r':
-                translation_two = translation_two + 't' + 'w'
+            if iter_count != ((len(translation)-1)-1) or iter_count < (len(translation)-1)-1:
+                if translation[iter_count+1] == 'r':
+                    translation_two = translation_two + 't' + 'w'
+                else:
+                    translation_two = translation_two + letter
             else:
                 translation_two = translation_two + letter
         elif letter == 'u':
-            if translation[iter_count+1].isspace() == False:
-                translation_two = translation_two + 'u' + 'w'
-            elif translation[iter_count+1] == 'r':
-                translation_two = translation_two + letter
+            if iter_count != (len(translation)-1) or iter_count < (translation):
+                if translation[iter_count+1].isspace() == False:
+                    translation_two = translation_two + 'u' + 'w'
+                elif translation[iter_count+1] == 'r':
+                    translation_two = translation_two + letter
+                else:
+                    translation_two = translation_two + letter
             else:
                 translation_two = translation_two + letter
         elif letter == 'e':
-            if translation[iter_count+1] == 'r':
-                translation_two = translation_two + 'e' + 'w'
+            if iter_count != (len(translation)-1) and iter_count < (len(translation)-1):
+                if translation[iter_count+1] == 'r':
+                    translation_two = translation_two + 'e' + 'w'
+                else:
+                    translation_two = translation_two + letter
             else:
                 translation_two = translation_two + letter
         else:
@@ -375,5 +422,26 @@ def censor(profanity):
     for letter in profanity:
         censoredword = censoredword + u"\u25A0"
     return censoredword
+
+def fileadd(item, txtfile):
+    item = str(item)
+    txt = open(txtfile,"a+")
+    txt.writelines(item + '\n')
+    txt.close()
+
+def fileremove(item, txtfile):
+    item = str(item)
+    txtfile =  open(txtfile,"r+")
+    tempdata = txtfile.read().splitlines()
+    newdata = []
+    for line in tempdata:
+        if line == item:
+            pass
+        else:
+            newdata.append(line + '\n')
+    txtfile.seek(0)
+    txtfile.truncate()
+    txtfile.writelines(newdata)
+    txtfile.close()
 #client = MyClient()
 bot.run(token)
