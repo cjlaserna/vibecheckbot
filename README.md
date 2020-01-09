@@ -12,6 +12,7 @@ profanewordslist.txt: This list contains profane words for the bot command @cuss
 
 ### 📃 Files you'd see if you actually tested the bot
 nonickguilds.txt: A list of guilds that used $nickstop to stop the bot from changing nicknames
+
 profmodchannels.txt: A list of channels that used $cussmod to allow the bot to censor profanity in that channel.
 
 ## 📑 Bot Commands
