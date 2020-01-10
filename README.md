@@ -1,6 +1,7 @@
 # 🤖 Vibe Check Discord Bot
 A discord bot checking for vibes that sprouted from online meme culture. This discord bot is currently under development. Forking and making suggestions is more than welcome.
 
+# [Use The Bot](https://discordapp.com/api/oauth2/authorize?client_id=646954861249691650&permissions=8&scope=bot)
 
 ## 💻 Repository Purpose
 The purpose of this repository is to allow anyone who wants to contribute to  the bot to fork the repo. This repository also allows me to document changes and updates to the bot. In the future, I might use this repo to host a site for the bot.
