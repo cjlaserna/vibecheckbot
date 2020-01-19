@@ -1,5 +1,6 @@
 """
 VCB is a Discord bot made by @ahola#8574 on discord. The bot is currently under development.
+Bot tokens and client ids are taken out for security purposes.
 """
 import os
 import discord #    discord API
