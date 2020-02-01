@@ -27,34 +27,6 @@ bot = commands.Bot(command_prefix='$', description='') #    intialize bot object
 reddit = praw.Reddit(client_id=client_id,
                      client_secret=client_secret,
                      user_agent='VibeCheck Discord Bot 0.1')
-"""
-Vibecheck bot is a Discord bot based on a short-lived internet meme.
-The idea is to check if someone has "good vibes" and is therefore, "vibing".
-This bot is made by @ahola#8574 on discord. The bot is currently under development.
-"""
-from keep_alive import keep_alive # keeps the bot alive
-import os # allows me to interact with the evironment that Python is running on
-import requests #   allows me to use APIS
-import json #  for APIs again.
-from dotenv import load_dotenv #    allows me to get token from .env
-import discord #    Python Discord API Wrapper
-from discord.ext import commands    #   used for bot commands
-from discord.ext.commands import Bot #  imports bot from commands explicitly
-import praw #   Python Reddit API Wrapper
-import random   # Random module for random numbers
-from random import randrange #  used for random numbers
-import asyncio #    for concurrent code
-import re # text manipulation
-
-#   Client Setup
-load_dotenv() #     for DISCORD_TOKEN
-token = os.getenv('DISCORD_TOKEN') #    sets token to DISCORD_TOKEN
-bot = commands.Bot(command_prefix='$', description='') #    intialize bot object
-
-#   Reddit Setup
-reddit = praw.Reddit(client_id='dkcLmZw_oATkpA',
-                     client_secret='77izrh2lpJzjm-JeMPrwWIIux2E',
-                     user_agent='VibeCheck Discord Bot 0.1')
 
 #   Global Variables
 profanitylist = open('list.txt').read().splitlines() #      Preps list of profane words
