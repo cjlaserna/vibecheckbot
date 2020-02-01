@@ -64,5 +64,5 @@ Example:\
 # 🙌🏼 Credits/Notable Libraries
 [Discord Py](https://discordpy.readthedocs.io/en/latest/) - Main Discord Bot Python Library \
 [Google's List of Bad Words](https://github.com/RobertJGabriel/Google-profanity-words/blob/master/list.txt) - Profanity moderation heavily revolved around this list. \
-[Praw](https://pypi.org/project/praw/) - Allowed me to use Python to easily acccess Redit API. `$meme` and `$wholesome` utilizes this command.
+[Praw](https://pypi.org/project/praw/) - Allowed me to use Python to easily acccess Redit API. `$meme` and `$wholesome` utilizes this command.\
 [Yoda API](https://github.com/richchurcher/yoda-api) - Allowed me to turn text to YodaSpeak.
