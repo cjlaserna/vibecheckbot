@@ -25,7 +25,7 @@ profmodchannels.txt: A list of channels that used `$cussmod` to allow the bot to
 ` $vibekick @user ` Kicks a user depending on a vibe check. This command is only for comedic purposes and not very practical. Returns an error if mentions are left blank.
 
 ### ❔ Help
-` $vibehelp ` Brings up a list of vibe check bot commands ( This command has several 'sub commands' visible when called )
+` $help ` Brings up a list of vibe check bot commands ( This command has several 'sub commands' visible when called )
 
 ### ✔️ Checks
 ` $vibecheckonline ` Vibe checks a user from a list of online users.\
@@ -53,7 +53,16 @@ Example:\
   Output:
 > ᔑ ↸╎ᓭᓵ𝙹∷↸ ʖ𝙹ℸ ̣  ᓵ⍑ᒷᓵꖌ╎リ⊣ ⎓𝙹∷ ⍊╎ʖᒷᓭ ᓭ!¡∷𝙹⚍ℸ ̣ ᒷ↸ ⎓∷𝙹ᒲ 𝙹リꖎ╎リᒷ ᒲᒷᒲᒷ ᓵ⚍ꖎℸ ̣ ⚍∷ᒷ. ℸ ̣ ⍑╎ᓭ ↸╎ᓭᓵ𝙹∷↸ ʖ𝙹ℸ ̣  ╎ᓭ ᓵ⚍∷∷ᒷリℸ ̣ ꖎ|| ⚍リ↸ᒷ∷ ↸ᒷ⍊ᒷꖎ𝙹!¡ᒲᒷリℸ ̣. ⎓𝙹∷ꖌ╎リ⊣ ᔑリ↸ ᒲᔑꖌ╎リ⊣ ᓭ⚍⊣⊣ᒷᓭℸ ̣ ╎𝙹リᓭ ╎ᓭ ᒲ𝙹∷ᒷ ℸ ̣ ⍑ᔑリ ∴ᒷꖎᓵ𝙹ᒲᒷ.
 
+` $yodish (content) ` Turns the text into YodaSpeak. (This is not 100% accurate/functional. It uses an online API and the API can only do very basic sentences. )\
+Example:\
+  Input:
+> $yodish I am Bob.
+
+  Output:
+> Bob, I am.
+
 # 🙌🏼 Credits/Notable Libraries
 [Discord Py](https://discordpy.readthedocs.io/en/latest/) - Main Discord Bot Python Library \
 [Google's List of Bad Words](https://github.com/RobertJGabriel/Google-profanity-words/blob/master/list.txt) - Profanity moderation heavily revolved around this list. \
 [Praw](https://pypi.org/project/praw/) - Allowed me to use Python to easily acccess Redit API. `$meme` and `$wholesome` utilizes this command.
+[Yoda API](https://github.com/richchurcher/yoda-api) - Allowed me to turn text to YodaSpeak.
