@@ -35,91 +35,91 @@ nonicklist = open('nonickguilds.txt').read().splitlines() #     Preps for list o
 
 @bot.event
 async def on_ready(): #     on log in print msg
-    print('We have logged in. ')
-    await bot.change_presence(activity=discord.Activity(name='Use $help for help!', type=discord.ActivityType.streaming))
+  print('We have logged in. ')
+  await bot.change_presence(activity=discord.Activity(name='Use $help for help!', type=discord.ActivityType.playing))
 
 @bot.event
 async def on_message(message): #  Everytime a message is sent.
-    global profanitylist
-    global profanitycheck
-    if (str(message.content)).lower() == "bruh": #  ensures the bot bruhs back
-        await message.channel.send('> bruh')
-    if (str(message.content)).lower() == "f": #  ensures the bot presses f back
-        await message.channel.send('> F :frowning: ')
-    if str(message.channel.id) in profanitycheck: #     Checks a message for profanity if the channel is in profmodchannels
-        """ This if/else condition checks for profanity.
-        It only checks for profanity is the channel id is in the list of channel ids where profanity is prohibited.
-        """
-        newmessage = message.content.lower() #  Converting things to lowercase makes it easier to compare strings.
-        profanity_detected = 0
-        msgwordlist = newmessage.split() #  A list of every word in the message so that bot can check word for word
+  global profanitylist
+  global profanitycheck
+  if (str(message.content)).lower() == "bruh": #  ensures the bot bruhs back
+      await message.channel.send('> bruh')
+  if (str(message.content)).lower() == "f": #  ensures the bot presses f back
+      await message.channel.send('> F :frowning: ')
+  if str(message.channel.id) in profanitycheck: #     Checks a message for profanity if the channel is in profmodchannels
+      """ This if/else condition checks for profanity.
+      It only checks for profanity is the channel id is in the list of channel ids where profanity is prohibited.
+      """
+      newmessage = message.content.lower() #  Converting things to lowercase makes it easier to compare strings.
+      profanity_detected = 0
+      msgwordlist = newmessage.split() #  A list of every word in the message so that bot can check word for word
 
-        for word in msgwordlist:
-            for profanity in profanitylist:
-                if profanity == word: #     If the message contains profanity, the bot preps for replication.
-                    if profanity_detected == 0:
-                        authorname = message.author.name
-                        pfp = message.author.avatar_url
-                        await message.delete()
-                        profanity_detected = 1
-                        break
-                else: pass
+      for word in msgwordlist:
+          for profanity in profanitylist:
+              if profanity == word: #     If the message contains profanity, the bot preps for replication.
+                  if profanity_detected == 0:
+                      authorname = message.author.name
+                      pfp = message.author.avatar_url
+                      await message.delete()
+                      profanity_detected = 1
+                      break
+              else: pass
 
-        if profanity_detected == 1:
-            for word in msgwordlist:
-                for profanity in profanitylist:
-                    if profanity == word:
-                        censorship = censor(word)
-                        index = msgwordlist.index(word)
-                        msgwordlist[index] = censorship
-                        newmessage = ' '.join(msgwordlist)
-                        embed = discord.Embed(description=newmessage)
-                        embed.set_author(name=authorname, icon_url=pfp)
-                        embed.set_footer(text="This message was recreated due to profanity.")
-                        await message.channel.send(embed=embed)
-                    else: pass
-        else:
-            pass
+      if profanity_detected == 1:
+          for word in msgwordlist:
+              for profanity in profanitylist:
+                  if profanity == word:
+                      censorship = censor(word)
+                      index = msgwordlist.index(word)
+                      msgwordlist[index] = censorship
+                      newmessage = ' '.join(msgwordlist)
+                      embed = discord.Embed(description=newmessage)
+                      embed.set_author(name=authorname, icon_url=pfp)
+                      embed.set_footer(text="This message was recreated due to profanity.")
+                      await message.channel.send(embed=embed)
+                  else: pass
+      else:
+          pass
 
-    await bot.process_commands(message) #   Makes sure that on_message does not interfere with bot commands
+  await bot.process_commands(message) #   Makes sure that on_message does not interfere with bot commands
 
 #   Help Menu
 @bot.command()
 async def info(ctx): #  Information for who made it
-    """ This command is for general bot information """
-    embed = discord.Embed(title="Vibe Check Bot",
-                         description="""Vibecheck bot is a Discord bot based on a short-lived internet meme.
-                         The idea is to check if someone has "good vibes" and is therefore, "vibing".
-                         This bot is made by @ahola#8574 on discord. The bot is currently under development.
-                         The bot uses the Python Discord API Wrapper and hosted online.
-                         [github repo link](https://github.com/cjlaserna/vibecheckbot/blob/master/README.md)""",
-                         color=0xeee657)
+  """ This command is for general bot information """
+  embed = discord.Embed(title="Vibe Check Bot",
+                        description="""Vibecheck bot is a Discord bot based on a short-lived internet meme.
+                        The idea is to check if someone has "good vibes" and is therefore, "vibing".
+                        This bot is made by @ahola#8574 on discord. The bot is currently under development.
+                        The bot uses the Python Discord API Wrapper and hosted online.
+                        [github repo link](https://github.com/cjlaserna/vibecheckbot/blob/master/README.md)""",
+                        color=0xeee657)
 
-    # give info about you here
-    embed.add_field(name="Author", value="@ahola#8547 | cjlaserna on Github")
+  # give info about you here
+  embed.add_field(name="Author", value="@ahola#8547 | cjlaserna on Github")
 
-    # Shows the number of servers the bot is member of.
-    embed.add_field(name="Server count", value=f"{len(bot.guilds)}")
+  # Shows the number of servers the bot is member of.
+  embed.add_field(name="Server count", value=f"{len(bot.guilds)}")
 
-    # give users a link to invite thsi bot to their server
-    embed.add_field(name="Invite", value="[Invite link](https://discordapp.com/api/oauth2/authorize?client_id=646954861249691650&permissions=8&scope=bot)")
+  # give users a link to invite thsi bot to their server
+  embed.add_field(name="Invite", value="[Invite link](https://discordapp.com/api/oauth2/authorize?client_id=646954861249691650&permissions=8&scope=bot)")
 
-    await ctx.send(embed=embed)
+  await ctx.send(embed=embed)
 
 bot.remove_command('help') #    removes given help command
 
 #   Help Command for all help commands
 @bot.command()
 async def help(ctx):
-    embed=discord.Embed(title="Vibe Check Bot", description="All Help Commands for All Things Vibe Bot.", url="https://github.com/cjlaserna/vibecheckbot", color=0x0000a0)
-    embed.set_author(name="@ahola", icon_url='https://cdn.discordapp.com/avatars/180173950918066176/87e548f470c9e28b9b899ebbddcd1793.webp?size=1024')
-    embed.set_thumbnail(url="https://ih0.redbubble.net/image.966319411.8151/flat,128x128,075,t-pad,128x128,f8f8f8.jpg")
-    embed.add_field(name="Checks :white_check_mark: ", value="`$checkhelp`", inline=True)
-    embed.add_field(name="Memes :partying_face: ", value="`$memehelp`", inline=True)
-    embed.add_field(name="Moderation :hammer_pick: ", value="`$modhelp`", inline=True)
-    embed.add_field(name="Fun :8ball: ", value="`$funhelp`", inline=True)
-    embed.set_footer(text="This bot is always under development. If you have any suggestions tells me :)")
-    await ctx.send(embed=embed)
+  embed=discord.Embed(title="Vibe Check Bot", description="All Help Commands for All Things Vibe Bot.", url="https://github.com/cjlaserna/vibecheckbot", color=0x0000a0)
+  embed.set_author(name="@ahola", icon_url='https://cdn.discordapp.com/avatars/180173950918066176/87e548f470c9e28b9b899ebbddcd1793.webp?size=1024')
+  embed.set_thumbnail(url="https://ih0.redbubble.net/image.966319411.8151/flat,128x128,075,t-pad,128x128,f8f8f8.jpg")
+  embed.add_field(name="Checks :white_check_mark: ", value="`$checkhelp`", inline=True)
+  embed.add_field(name="Memes :partying_face: ", value="`$memehelp`", inline=True)
+  embed.add_field(name="Moderation :hammer_pick: ", value="`$modhelp`", inline=True)
+  embed.add_field(name="Fun :8ball: ", value="`$funhelp`", inline=True)
+  embed.set_footer(text="This bot is always under development. If you have any suggestions tells me :)")
+  await ctx.send(embed=embed)
 
 #   Help command for vibechecks, factchecks, etc.
 @bot.command()
@@ -142,7 +142,7 @@ async def memehelp(ctx):
     embed=discord.Embed(title="Meme Help", description="All Meme Commands for All Things Vibe Bot.", url="https://github.com/cjlaserna/vibecheckbot", color=0x0000a0)
     embed.set_author(name="@ahola", icon_url='https://cdn.discordapp.com/avatars/180173950918066176/87e548f470c9e28b9b899ebbddcd1793.webp?size=1024')
     embed.set_thumbnail(url="https://lh3.googleusercontent.com/tZjpBIEVdie5cWN5WmMaeO5xXQQmXNdSKq33i-UgVb-xgz3Yt2HgZL23qjVvWVq8uibbM6Pm=w128-h128-e365")
-    embed.add_field(name="Information", value="This bot takes memes from the following subreddits: ", inline=True)
+    embed.add_field(name="Information", value="This bot takes memes from the following subreddits: 'me_irl', 'memes', 'bossfight', 'boottoobig', 'funny', 'gaming' , 'wholesome', 'wholesomegifs', 'UnexpectedlyWholesome', 'MadeMeSmile', 'wholesomememes', 'Kirby', 'cats' ", inline=True)
     embed.add_field(name="Wholesome", value="`$wholesome`", inline=True)
     embed.add_field(name="Memes", value="`$meme`", inline=True)
     embed.set_footer(text="This bot is always under development. If you have any suggestions tells me :)")
