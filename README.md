@@ -1,5 +1,5 @@
 # 🤖 Vibe Check Discord Bot
-A discord bot checking for vibes that sprouted from online meme culture. This discord bot is currently under development. Forking and making suggestions is more than welcome.
+A discord bot checking for vibes that sprouted from online meme culture. This discord bot is no longer being worked on
 
 # [Use The Bot](https://discordapp.com/api/oauth2/authorize?client_id=646954861249691650&permissions=8&scope=bot)
 
