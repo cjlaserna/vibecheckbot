@@ -10,7 +10,7 @@ import requests #   allows me to use APIS
 import json #  for APIs again.
 from dotenv import load_dotenv #    allows me to get token from .env
 import discord #    Python Discord API Wrapper
-from discord.ext import commands    #   used for bot commands
+from discord.ext import commands    #   used for bot csommands
 from discord.ext.commands import Bot #  imports bot from commands explicitly
 import praw #   Python Reddit API Wrapper
 import random   # Random module for random numbers
